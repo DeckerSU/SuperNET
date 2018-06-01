@@ -1,4 +1,10 @@
-git pull
+#git pull
 rm *.o
-gcc -c -DLIQUIDITY_PROVIDER=1 -O2 *.c jpeg/*.c jpeg/unix/*.c -I/usr/lib/x86_64-linux-gnu/curl 
+
+yasm -f x64 -f elf64 -D LINUX -o sha256_avx.o cryptoext/intel/sha256_avx.asm 
+yasm -f x64 -f elf64 -D LINUX -o sha256_sse4.o cryptoext/intel/sha256_sse4.asm 
+yasm -f x64 -f elf64 -D LINUX -o sha256_avx2_rorx2.o cryptoext/intel/sha256_avx2_rorx2.asm 
+yasm -f x64 -f elf64 -D LINUX -o sha256_avx2_rorx8.o cryptoext/intel/sha256_avx2_rorx8.asm
+
+gcc -c -DLIQUIDITY_PROVIDER=1 -O2 *.c jpeg/*.c jpeg/unix/*.c cryptoext/sha256_hardware.c -I/usr/lib/x86_64-linux-gnu/curl 
 rm -f ../agents/libcrypto777.a; ar rc ../agents/libcrypto777.a *.o 

@@ -15,6 +15,7 @@
 // derived from curve25519_donna
 
 #include "../includes/curve25519.h"
+#include "cryptoext/sha256_hardware.h"
 
 //#undef force_inline
 //#define force_inline  __attribute__((always_inline))
@@ -1124,6 +1125,13 @@ static inline int32_t sha256_vdone(struct sha256_vstate *md,uint8_t *out)
 }
 
 int32_t init_hexbytes_noT(char *hexbytes,uint8_t *message,long len);
+
+void vcalc_sha256(char hashstr[(256 >> 3) * 2 + 1],uint8_t hash[256 >> 3],uint8_t *src,int32_t len)
+{
+    SHA256_hash(src, len, hash);
+     if ( hashstr != 0 )
+        init_hexbytes_noT(hashstr,hash,256 >> 3);
+}
 
 void vcalc_sha256_software(char hashstr[(256 >> 3) * 2 + 1],uint8_t hash[256 >> 3],uint8_t *src,int32_t len)
 {
