@@ -51,6 +51,7 @@ bits256 rand256(int32_t privkeyflag);
 bits256 curve25519_basepoint9();
 bits256 curve25519_keypair(bits256 *pubkeyp);
 
+void vcalc_sha256(char hashstr[(256 >> 3) * 2 + 1],uint8_t hash[256 >> 3],uint8_t *src,int32_t len);
 void vcalc_sha256_software(char hashstr[(256 >> 3) * 2 + 1],uint8_t hash[256 >> 3],uint8_t *src,int32_t len);
 void vcalc_sha256cat(uint8_t hash[256 >> 3],uint8_t *src,int32_t len,uint8_t *src2,int32_t len2);
 void vupdate_sha256(uint8_t hash[256 >> 3],struct sha256_vstate *state,uint8_t *src,int32_t len);
