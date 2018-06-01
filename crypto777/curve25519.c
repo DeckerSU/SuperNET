@@ -1125,7 +1125,7 @@ static inline int32_t sha256_vdone(struct sha256_vstate *md,uint8_t *out)
 
 int32_t init_hexbytes_noT(char *hexbytes,uint8_t *message,long len);
 
-void vcalc_sha256(char hashstr[(256 >> 3) * 2 + 1],uint8_t hash[256 >> 3],uint8_t *src,int32_t len)
+void vcalc_sha256_software(char hashstr[(256 >> 3) * 2 + 1],uint8_t hash[256 >> 3],uint8_t *src,int32_t len)
 {
     struct sha256_vstate md;
     sha256_vinit(&md);
