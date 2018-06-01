@@ -1,4 +1,4 @@
-#git pull
+git pull
 rm *.o
 
 yasm -f x64 -f elf64 -D LINUX -o sha256_avx.o cryptoext/intel/sha256_avx.asm 
