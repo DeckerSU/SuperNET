@@ -9,6 +9,7 @@
 - Build dependensies: `marketmaker_build_depends.cmd`
 - Build marketmaker: `marketmaker_build_32_64.cmd`
 - Make a new dir, for example, `posttest64` and copy following files in it:
+
 	- `.\x64\Release\marketmaker.exe` 
 	- `.\marketmaker_depends\curl\build_msvc_2015_win64\lib\Release\libcurl.dll`
 	- `.\marketmaker_depends\nanomsg\build_msvc_2015_win64\Release\nanomsg.dll`
@@ -17,6 +18,7 @@
 	- `.\iguana\dexscripts.win32\postest64_getaddresses.cmd`
 	- `.\marketmaker_depends\curl\build_msvc_2015_win64\src\Release\curl.exe`
 	- `.\iguana\exchanges\coins.json`
+	
 - Create `passphrase` file in a same dir, containing your secret strong passphrase.
 - Launch `1-client.cmd`, it will start marketmaker and "login" with `default` passphrase. Wait 10-15 sec to allow marketmaker start. If Windows firewall will ask you about connections - allow it.
 - Launch `2-getuserpass.cmd` to "login" with your passphrase, it will push your passphrase from `passphrase` file to marketmaker and fills `userpass` file with your userpass.
@@ -28,7 +30,6 @@
 -  Check and follow this guide https://github.com/Alrighttt/POSTEST64 .
 
 **Q.** Where i can get needed stuff, mean Git, Cmake and MSVC 2015 for my PC?
-**A.** 
 
 - `MSVC 2015 (Visual Studio 2015)` - https://stackoverflow.com/questions/44290672/how-to-download-visual-studio-community-edition-2015-not-2017 . 
 - `Git for Windows` - https://git-scm.com/download/win
