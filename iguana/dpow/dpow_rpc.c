@@ -15,6 +15,8 @@
 
 #define issue_curl(cmdstr) bitcoind_RPC(0,"curl",cmdstr,0,0,0,0)
 
+portable_mutex_t LP_utxomutex;
+
 uint64_t dpow_utxosize(char *symbol)
 {
     if ( strcmp(symbol,"GAME") == 0 )
@@ -99,6 +101,8 @@ char *Notaries_seeds[65];
 
 int32_t komodo_initjson(char *fname)
 {
+	portable_mutex_init(&LP_utxomutex);
+
     char *fstr,*field,*hexstr; cJSON *argjson,*array,*item; long fsize; uint16_t port; int32_t i,n,num,retval = -1;
     //for (i=0; i<Notaries_numseeds; i++)
     //    Notaries_seeds[i] = seeds[i];
@@ -519,15 +523,64 @@ cJSON *dpow_gettransaction(struct supernet_info *myinfo,struct iguana_info *coin
 cJSON *dpow_listunspent(struct supernet_info *myinfo,struct iguana_info *coin,char *coinaddr)
 {
     char buf[128],*retstr; cJSON *array,*json = 0;
+	
+	uint64_t txcount = 0;
+	static char *retstr_cache;
+	static uint64_t prev_txcount;
+	static uint64_t callcount;
+	
     if ( coin->FULLNODE < 0 )
     {
-        sprintf(buf,"1, 99999999, [\"%s\"]",coinaddr);
-        if ( (retstr= bitcoind_passthru(coin->symbol,coin->chain->serverport,coin->chain->userpass,"listunspent",buf)) != 0 )
-        {
-            json = cJSON_Parse(retstr);
-            //printf("%s (%s) listunspent.(%s)\n",coin->symbol,buf,retstr);
-            free(retstr);
-        } else printf("%s null retstr from (%s)n",coin->symbol,buf);
+		
+
+		if (strcmp(coin->symbol, "KMD") == 0)
+		{
+			portable_mutex_lock(&LP_utxomutex);
+			printf("[Decker] (%s) listunspent callcount = %d\n", coin->symbol, ++callcount);
+			if ((retstr = bitcoind_passthru(coin->symbol, coin->chain->serverport, coin->chain->userpass, "getwalletinfo", "")) != 0)
+			{
+				json = cJSON_Parse(retstr);
+				txcount = get_cJSON_int(json, "txcount");
+				free(retstr); 
+				json = 0;
+				printf("[Decker] (%s) txcount = %d, prev_txcount = %d\n", coin->symbol, txcount, prev_txcount);
+				
+				if (txcount != prev_txcount) {
+					// some changes in wallet happens, we should update cache and return json
+					prev_txcount = txcount;
+
+					sprintf(buf, "1, 99999999, [\"%s\"]", coinaddr);
+					if ((retstr = bitcoind_passthru(coin->symbol, coin->chain->serverport, coin->chain->userpass, "listunspent", buf)) != 0)
+					{
+						if (retstr_cache) free(retstr_cache);
+						retstr_cache = clonestr(retstr);
+
+						json = cJSON_Parse(retstr);
+						free(retstr);
+					}
+					else printf("%s null retstr from (%s)\n", coin->symbol, buf);
+
+				}
+				else {
+					// took listunspent from cache
+					if (retstr_cache)
+						json = cJSON_Parse(retstr_cache);
+					else printf("%s null retstr_cache\n", coin->symbol);
+				}
+			} else printf("%s null retstr from (%s)\n", coin->symbol, "getwalletinfo");
+			portable_mutex_unlock(&LP_utxomutex);
+		}
+		else 
+		{
+			sprintf(buf, "1, 99999999, [\"%s\"]", coinaddr);
+			if ((retstr = bitcoind_passthru(coin->symbol, coin->chain->serverport, coin->chain->userpass, "listunspent", buf)) != 0)
+			{
+				json = cJSON_Parse(retstr);
+				//printf("%s (%s) listunspent.(%s)\n",coin->symbol,buf,retstr);
+				free(retstr);
+			}
+			else printf("%s null retstr from (%s)\n", coin->symbol, buf);
+		}
     }
     else if ( coin->FULLNODE > 0 || coin->VALIDATENODE > 0 )
     {
@@ -932,10 +985,12 @@ int32_t dpow_haveutxo(struct supernet_info *myinfo,struct iguana_info *coin,bits
             //memcpy(&r,coin->symbol,3);
             //r = calc_crc32(0,(void *)&r,sizeof(r));
             OS_randombytes((uint8_t *)&r,sizeof(r));
-            for (j=0; j<n; j++)
+			
+			for (j=0; j<n; j++)
             {
                 i = (r + j) % n;
-                if ( (item= jitem(unspents,i)) == 0 )
+				// printf("[Decker] n=%d, j=%d, i=%d, r=%d, haveutxo=%d\n", n, j, i, r, haveutxo);
+				if ( (item= jitem(unspents,i)) == 0 )
                     continue;
                 if ( is_cJSON_False(jobj(item,"spendable")) != 0 )
                     continue;
@@ -951,6 +1006,7 @@ int32_t dpow_haveutxo(struct supernet_info *myinfo,struct iguana_info *coin,bits
                         {
                             if ( *voutp < 0 || (rand() % (n/2+1)) == 0 )
                             {
+								// printf("[Decker] Selected ...\n");
                                 *voutp = vout;
                                 *txidp = txid;
                             }
