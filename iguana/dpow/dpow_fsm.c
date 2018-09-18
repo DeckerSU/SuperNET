@@ -467,6 +467,7 @@ void dpow_statemachinestart(void *ptr)
     }
     else
     {
+		// dest
         if ( dpow_checkutxo(myinfo,dp,bp,bp->destcoin,&ep->dest.prev_hash,&ep->dest.prev_vout,destaddr,src->symbol) < 0 )
         {
             printf("dont have %s %s utxo, please send funds\n",dp->dest,destaddr);
@@ -474,6 +475,7 @@ void dpow_statemachinestart(void *ptr)
             free(ptr);
             return;
         }
+		// source
         if ( dpow_checkutxo(myinfo,dp,bp,bp->srccoin,&ep->src.prev_hash,&ep->src.prev_vout,srcaddr,"") < 0 )
         {
             printf("dont have %s %s utxo, please send funds\n",dp->symbol,srcaddr);
@@ -489,6 +491,9 @@ void dpow_statemachinestart(void *ptr)
             bp->notaries[myind].ratifydestvout = ep->dest.prev_vout;
         }
     }
+
+	printf("[Decker] [%s->%s] srcutxo.(%s) vout.(%d) destutxo.(%s) vout.(%d)\n", dp->symbol, dp->dest, bits256_str(str,ep->src.prev_hash),ep->src.prev_vout,bits256_str(str2,ep->dest.prev_hash),ep->dest.prev_vout);
+
     /*if ( strcmp(dp->symbol,"CHIPS") == 0 && myind == 0 )
     {
         char str[65];
