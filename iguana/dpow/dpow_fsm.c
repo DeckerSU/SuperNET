@@ -603,4 +603,3 @@ void dpow_statemachinestart(void *ptr)
     bp->state = 0xffffffff;
     free(ptr);
 }
-
