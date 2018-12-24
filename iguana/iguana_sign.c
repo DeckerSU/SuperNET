@@ -523,12 +523,46 @@ bits256 bitcoin_sigtxid(struct iguana_info *coin, int32_t height, uint8_t *seria
 	uint32_t version = dest.version & 0x7FFFFFFF;
 	
 	if (overwintered && version >= 3) {
-	// sapling tx sighash preimage 
+
+		if (sodium_init() < 0) {
+			printf("[ Decker ] panic! libsodium couldn't be initialized, it is not safe to use\n");
+			return(sigtxid);
+		}
+
+		// sapling tx sighash preimage 
 		len = 0;
 		uint8_t for_sig_hash[1000], sig_hash[32];
+		memset(for_sig_hash, 0, sizeof(for_sig_hash));
+		memset(sig_hash, 0, sizeof(sig_hash));
+		
+		/* calc preimage length */
+		int32_t for_sig_hash_len = 4 /*header of the transaction*/ +
+			4 /*nVersionGroupId*/ +
+			32 /*hashPrevouts*/ +
+			32 /*hashSequence*/ +
+			32 /*hashOutputs*/ +
+			32 /*hashJoinSplits*/ +
+			((version > 3) ? (
+			32 /*hashShieldedSpends */ +
+			32 /*hashShieldedOutputs */) : 0) +
+			4 /*nLockTime */ +
+			4 /*nExpiryHeight */ +
+			((version > 3) ? (
+			8 /*valueBalance */) : 0) +
+			4 /*sighash type of the signature*/ +
+			32 + 4 /*outpoint (32-byte hash + 4-byte little endian)*/ +
+			1 /*length of scriptCode*/ + 
+			spendlen /*scriptCode of the input*/ +
+			8 /*value of the output spent by this input*/ +
+			4 /*nSequence of the input*/;
+
+
 		len = iguana_rwnum(1, &for_sig_hash[len], sizeof(dest.version), &dest.version);
 		len += iguana_rwnum(1, &for_sig_hash[len], sizeof(dest.version_group_id), &dest.version_group_id);
 		uint8_t prev_outs[1000], hash_prev_outs[32];
+		memset(prev_outs, 0, sizeof(prev_outs));
+		memset(hash_prev_outs, 0, sizeof(hash_prev_outs));
+
 		int32_t prev_outs_len = 0;
 		for (i = 0; i < dest.tx_in; i++) {
 			prev_outs_len += iguana_rwbignum(1, &prev_outs[prev_outs_len], sizeof(dest.vins[i].prev_hash), dest.vins[i].prev_hash.bytes);
@@ -548,6 +582,9 @@ bits256 bitcoin_sigtxid(struct iguana_info *coin, int32_t height, uint8_t *seria
 		len += 32;
 
 		uint8_t sequence[1000], sequence_hash[32];
+		memset(sequence, 0, sizeof(sequence));
+		memset(sequence_hash, 0, sizeof(sequence_hash));
+
 		int32_t sequence_len = 0;
 
 		for (i = 0; i < dest.tx_in; i++) {
@@ -573,6 +610,8 @@ bits256 bitcoin_sigtxid(struct iguana_info *coin, int32_t height, uint8_t *seria
 		for (i = 0; i < dest.tx_out; i++) { outputs_len += sizeof(dest.vouts[i].value); outputs_len++;  outputs_len += dest.vouts[i].pk_scriptlen; } // calc size for outputs buffer
 		// printf("[Decker] outputs_len = %d\n", outputs_len);
 		outputs = malloc(outputs_len);
+		memset(outputs, 0, outputs_len);
+		memset(hash_outputs, 0, sizeof(hash_outputs));
 
 		outputs_len = 0;
 		for (i = 0; i < dest.tx_out; i++) {
@@ -641,7 +680,8 @@ bits256 bitcoin_sigtxid(struct iguana_info *coin, int32_t height, uint8_t *seria
 
 		for (i = 0; i<32; i++)
 			sigtxid.bytes[i] = sig_hash[i];
-
+		
+		//char str[65]; printf("SIGTXID.(%s) numvouts.%d\n", bits256_str(str, sigtxid), dest.tx_out);
 	}
 	else {
 		for (i = 0; i<dest.tx_in; i++)
