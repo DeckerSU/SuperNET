@@ -15,6 +15,7 @@
 
 #include "iguana777.h"
 #include "exchanges/bitcoin.h"
+#include <sodium.h>
 #include <sodium/crypto_generichash_blake2b.h>
 const unsigned char ZCASH_PREVOUTS_HASH_PERSONALIZATION[16] =
 { 'Z','c','a','s','h','P','r','e','v','o','u','t','H','a','s','h' };
