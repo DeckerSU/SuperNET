@@ -557,6 +557,8 @@ bits256 bitcoin_sigtxid(struct iguana_info *coin, int32_t height, uint8_t *seria
 			8 /*value of the output spent by this input*/ +
 			4 /*nSequence of the input*/;
 
+        printf("[Decker] for_sig_hash_len = %d\n",for_sig_hash_len);
+        printf("[Decker] sizeof(uint64_t) = %zu, sizeof(unsigned long long) = %zu\n", sizeof(uint64_t), sizeof(unsigned long long));
 
 		len = iguana_rwnum(1, &for_sig_hash[len], sizeof(dest.version), &dest.version);
 		len += iguana_rwnum(1, &for_sig_hash[len], sizeof(dest.version_group_id), &dest.version_group_id);
@@ -569,7 +571,7 @@ bits256 bitcoin_sigtxid(struct iguana_info *coin, int32_t height, uint8_t *seria
 			prev_outs_len += iguana_rwbignum(1, &prev_outs[prev_outs_len], sizeof(dest.vins[i].prev_hash), dest.vins[i].prev_hash.bytes);
 			prev_outs_len += iguana_rwnum(1, &prev_outs[prev_outs_len], sizeof(dest.vins[i].prev_vout), &dest.vins[i].prev_vout);
 		}
-		crypto_generichash_blake2b_salt_personal(
+		if (crypto_generichash_blake2b_salt_personal(
 			hash_prev_outs,
 			32,
 			prev_outs,
@@ -578,7 +580,8 @@ bits256 bitcoin_sigtxid(struct iguana_info *coin, int32_t height, uint8_t *seria
 			0,
 			NULL,
 			ZCASH_PREVOUTS_HASH_PERSONALIZATION
-		);
+		) != 0) { printf("[Decker] hash function failure !!!"); }
+
 		memcpy(&for_sig_hash[len], hash_prev_outs, 32);
 		len += 32;
 
@@ -589,10 +592,11 @@ bits256 bitcoin_sigtxid(struct iguana_info *coin, int32_t height, uint8_t *seria
 		int32_t sequence_len = 0;
 
 		for (i = 0; i < dest.tx_in; i++) {
+            printf("[Decker] dest.vins[%d].sequence = %d\n", i, dest.vins[i].sequence);
 			sequence_len += iguana_rwnum(1, &sequence[sequence_len], sizeof(dest.vins[i].sequence),
 				&dest.vins[i].sequence);
 		}
-		crypto_generichash_blake2b_salt_personal(
+		if (crypto_generichash_blake2b_salt_personal(
 			sequence_hash,
 			32,
 			sequence,
@@ -601,7 +605,8 @@ bits256 bitcoin_sigtxid(struct iguana_info *coin, int32_t height, uint8_t *seria
 			0,
 			NULL,
 			ZCASH_SEQUENCE_HASH_PERSONALIZATION
-		);
+		) != 0) { printf("[Decker] hash function failure !!!"); }
+
 		memcpy(&for_sig_hash[len], sequence_hash, 32);
 		len += 32;
 
@@ -622,7 +627,7 @@ bits256 bitcoin_sigtxid(struct iguana_info *coin, int32_t height, uint8_t *seria
 			outputs_len += dest.vouts[i].pk_scriptlen;
 		}
 
-		crypto_generichash_blake2b_salt_personal(
+		if (crypto_generichash_blake2b_salt_personal(
 			hash_outputs,
 			32,
 			outputs,
@@ -631,7 +636,7 @@ bits256 bitcoin_sigtxid(struct iguana_info *coin, int32_t height, uint8_t *seria
 			0,
 			NULL,
 			ZCASH_OUTPUTS_HASH_PERSONALIZATION
-		);
+		) != 0) { printf("[Decker] hash function failure !!!"); };
 		memcpy(&for_sig_hash[len], hash_outputs, 32);
 		len += 32;
 
@@ -668,7 +673,7 @@ bits256 bitcoin_sigtxid(struct iguana_info *coin, int32_t height, uint8_t *seria
 			sig_hash_personal = ZCASH_SIG_HASH_SAPLING_PERSONALIZATION;
 		}
 
-		crypto_generichash_blake2b_salt_personal(
+		if (crypto_generichash_blake2b_salt_personal(
 			sig_hash,
 			32,
 			for_sig_hash,
@@ -677,12 +682,33 @@ bits256 bitcoin_sigtxid(struct iguana_info *coin, int32_t height, uint8_t *seria
 			0,
 			NULL,
 			sig_hash_personal
-		);
+		) != 0) { printf("[Decker] hash function failure !!!"); }
+
+        printf("Preimage: ");
+        for (i=0; i<len; i++)
+		    printf("%02x",for_sig_hash[i]);
+		printf(" <- preimage len.%d\n",len);
+
+        len = iguana_rwmsgtx(coin, height, 1, 0, serialized, maxlen, &dest, &txid, vpnstr, 0, 0, 0, suppress_pubkeys);
+        
+        printf("Serialized: ");
+        for (i=0; i<len; i++)
+		    printf("%02x",serialized[i]);
+		printf(" <- sigtx len.%d supp.%d user[0].%d\n",len,suppress_pubkeys,dest.vins[0].userdatalen);
+        
+		if (len > 0) // (dest.tx_in != 1 || bits256_nonz(dest.vins[0].prev_hash) != 0) && dest.vins[0].scriptlen > 0 &&
+		{
+			#ifdef BTC2_VERSION
+						if (height >= BTC2_HARDFORK_HEIGHT)
+							hashtype |= (0x777 << 20);
+			#endif
+			len += iguana_rwnum(1, &serialized[len], sizeof(hashtype), &hashtype);
+		}
 
 		for (i = 0; i<32; i++)
 			sigtxid.bytes[i] = sig_hash[i];
 		
-		//char str[65]; printf("SIGTXID.(%s) numvouts.%d\n", bits256_str(str, sigtxid), dest.tx_out);
+		char str[65]; printf("SIGTXID.(%s) numvouts.%d\n", bits256_str(str, sigtxid), dest.tx_out);
 	}
 	else {
 		for (i = 0; i<dest.tx_in; i++)
@@ -1104,7 +1130,7 @@ int32_t iguana_rwmsgtx(struct iguana_info *coin,int32_t height,int32_t rwflag,cJ
         jaddnum(json,"locktime",msg->lock_time);
         jaddnum(json,"size",len);
         jaddbits256(json,"txid",*txidp);
-        //printf("TX.(%s) %p\n",jprint(json,0),json);
+        printf("TX.(%s) %p\n",jprint(json,0),json);
     }
     msg->allocsize = len;
     return(len);
@@ -1417,14 +1443,14 @@ int32_t bitcoin_verifyvins(struct iguana_info *coin,int32_t height,bits256 *sign
                         bitcoin_pubkey33(coin->ctx,vp->signers[j].pubkey,vp->signers[j].privkey);
                     sig[siglen++] = sighash;
                     vp->signers[j].siglen = siglen;
-                    /*char str[65]; printf("SIGTXID.(%s) ",bits256_str(str,sigtxid));
+                    char str[65]; printf("SIGTXID.(%s) ",bits256_str(str,sigtxid));
                     int32_t i; for (i=0; i<siglen; i++)
                         printf("%02x",sig[i]);
-                    printf(" sig, ");
-                    for (i=0; i<plen; i++)
-                        printf("%02x",vp->signers[j].pubkey[i]);
+                    printf(" <-- sig, \n");
+                    //for (i=0; i<plen; i++)
+                      //  printf("%02x",vp->signers[j].pubkey[i]);
                     // s2 = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141 - s1;
-                    printf(" SIGNEDTX.[%02x] siglen.%d priv.%s\n",sig[siglen-1],siglen,bits256_str(str,vp->signers[j].privkey));*/
+                    printf(" SIGNEDTX.[%02x] siglen.%d priv.%s\n",sig[siglen-1],siglen,bits256_str(str,vp->signers[j].privkey));
                 }
                 if ( sig == 0 || siglen == 0 )
                 {
@@ -1457,7 +1483,7 @@ int32_t bitcoin_verifyvins(struct iguana_info *coin,int32_t height,bits256 *sign
     iguana_msgtx_Vset(coin,serialized,maxlen,msgtx,V);
     cJSON *txobj = cJSON_CreateObject();
     *signedtx = iguana_rawtxbytes(coin,height,txobj,msgtx,suppress_pubkeys);
-    //printf("SIGNEDTX.(%s)\n",jprint(txobj,1));
+    printf("SIGNEDTX.(%s)\n",jprint(txobj,1));
     *signedtxidp = msgtx->txid;
     return(complete);
 }
