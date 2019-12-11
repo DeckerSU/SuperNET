@@ -11,9 +11,11 @@ coins/btc_7776
 
 # Loop through assetchains.json and build the path to the approptiate coins file and run it.
 ~/komodo/src/listassetchains | while read chain; do
+    if [ ${chain} != "THC" ] && [ ${chain} != "HUSH3" ]; then
     coin="coins/$(echo $chain | awk '{print tolower($0)}')_7776"
     $coin
+    fi
 done
 
 # Add KMD source code forks here manually as its not listed in the assetchains.json
-coins/hush3_7776
+# coins/hush3_7776
