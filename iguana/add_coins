@@ -17,5 +17,3 @@ coins/btc_7776
     fi
 done
 
-# Add KMD source code forks here manually as its not listed in the assetchains.json
-# coins/hush3_7776
