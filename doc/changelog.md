@@ -1,8 +1,15 @@
+### 0.1.5
+
+- update VRSC (main)
+
+### 0.1.4
+
+- add STBL (main)
 
 ### 0.1.3
 
-- add MCL (3P)
 - add AYA (3P)
+- add VOTE2020 (main)
 - bumped version
 
 ### 0.1.2
