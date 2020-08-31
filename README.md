@@ -38,6 +38,8 @@ General [Setup instructions](https://docs.komodoplatform.com/notary/setup-Komodo
 
 ### dPoW asset status
 
+#### [Notary Node metrics](http://stats.kmd.io/) - http://stats.kmd.io/
+
 [![dPOW Status](http://116.203.64.110/svg/date_badge.svg?maxAge=60)](https://komodostats.com)
 * active - last notarization less than 2.5 hours ago
 * irregular - last notarization more than 2.5 and less than 24 hours ago
@@ -53,7 +55,7 @@ BET | [komodo](https://github.com/komodoplatform/komodo) | [e159b4e](https://git
 BOTS | [komodo](https://github.com/komodoplatform/komodo) | [e159b4e](https://github.com/KomodoPlatform/komodo/tree/e159b4e7a40d3886519401c4074e957a1f9d42ba) | [![dPOW Status](http://116.203.64.110/svg/BOTS_badge.svg?maxAge=60)](https://komodostats.com) | dPoW-mainnet
 BTCH | [komodo](https://github.com/komodoplatform/komodo) | [e159b4e](https://github.com/KomodoPlatform/komodo/tree/e159b4e7a40d3886519401c4074e957a1f9d42ba) | [![dPOW Status](http://116.203.64.110/svg/BTCH_badge.svg?maxAge=60)](https://komodostats.com) | dPoW-mainnet
 CCL | [komodo](https://github.com/komodoplatform/komodo) | [e159b4e](https://github.com/KomodoPlatform/komodo/tree/e159b4e7a40d3886519401c4074e957a1f9d42ba) | [![dPOW Status](http://116.203.64.110/svg/CCL_badge.svg?maxAge=60)](https://komodostats.com) | dPoW-mainnet
-CHIPS | [chips](https://github.com/jl777/chips3/tree/master) | [31d59f9](https://github.com/jl777/chips3/tree/31d59f9d8fa4a8e00dd474ef0561a5b174056d86) | [![dPOW Status](http://116.203.64.110/svg/CHIPS_badge.svg?maxAge=60)](https://komodostats.com) | dPoW-3P
+CHIPS | [chips](https://github.com/jl777/chips3/tree/master) | [2ce1c38](https://github.com/jl777/chips3/tree/2ce1c3834a3f58ecff77a4552c3a789011d653eb) | [![dPOW Status](http://116.203.64.110/svg/CHIPS_badge.svg?maxAge=60)](https://komodostats.com) | dPoW-3P
 COQUICASH | [komodo](https://github.com/komodoplatform/komodo) | [e159b4e](https://github.com/KomodoPlatform/komodo/tree/e159b4e7a40d3886519401c4074e957a1f9d42ba) | [![dPOW Status](http://116.203.64.110/svg/COQUICASH_badge.svg?maxAge=60)](https://komodostats.com) | dPoW-mainnet
 CRYPTO | [komodo](https://github.com/komodoplatform/komodo) | [e159b4e](https://github.com/KomodoPlatform/komodo/tree/e159b4e7a40d3886519401c4074e957a1f9d42ba) | [![dPOW Status](http://116.203.64.110/svg/CRYPTO_badge.svg?maxAge=60)](https://komodostats.com) | dPoW-mainnet
 DEX | [komodo](https://github.com/komodoplatform/komodo) | [e159b4e](https://github.com/KomodoPlatform/komodo/tree/e159b4e7a40d3886519401c4074e957a1f9d42ba) | [![dPOW Status](http://116.203.64.110/svg/DEX_badge.svg?maxAge=60)](https://komodostats.com) | dPoW-mainnet
@@ -64,6 +66,7 @@ HUSH3 | [hush3](https://github.com/myhush/hush3) | [7f7876d](https://github.com/
 ILN | [komodo](https://github.com/komodoplatform/komodo) | [e159b4e](https://github.com/KomodoPlatform/komodo/tree/e159b4e7a40d3886519401c4074e957a1f9d42ba) | [![dPOW Status](http://116.203.64.110/svg/ILN_badge.svg?maxAge=60)](https://komodostats.com) | dPoW-mainnet
 JUMBLR | [komodo](https://github.com/komodoplatform/komodo) | [e159b4e](https://github.com/KomodoPlatform/komodo/tree/e159b4e7a40d3886519401c4074e957a1f9d42ba) | [![dPOW Status](http://116.203.64.110/svg/JUMBLR_badge.svg?maxAge=60)](https://komodostats.com) | dPoW-mainnet
 KOIN | [komodo](https://github.com/komodoplatform/komodo) | [e159b4e](https://github.com/KomodoPlatform/komodo/tree/e159b4e7a40d3886519401c4074e957a1f9d42ba) | [![dPOW Status](http://116.203.64.110/svg/KOIN_badge.svg?maxAge=60)](https://komodostats.com) | dPoW-mainnet
+MCL | [marmarachain](https://github.com/marmarachain/Marmara-v.1.0) | [03dd780](https://github.com/marmarachain/Marmara-v.1.0/tree/03dd78037067ebb27af8b33f6adcdbede3813007) | [![dPOW Status](http://116.203.64.110/svg/MCL_badge.svg?maxAge=60)](https://komodostats.com) | dPoW-3p
 MESH | [komodo](https://github.com/komodoplatform/komodo) | [e159b4e](https://github.com/KomodoPlatform/komodo/tree/e159b4e7a40d3886519401c4074e957a1f9d42ba) | [![dPOW Status](http://116.203.64.110/svg/MESH_badge.svg?maxAge=60)](https://komodostats.com) | dPoW-mainnet
 MGW | [komodo](https://github.com/komodoplatform/komodo) | [e159b4e](https://github.com/KomodoPlatform/komodo/tree/e159b4e7a40d3886519401c4074e957a1f9d42ba) | [![dPOW Status](http://116.203.64.110/svg/MGW_badge.svg?maxAge=60)](https://komodostats.com) | dPoW-mainnet
 MORTY | [komodo](https://github.com/komodoplatform/komodo) | [e159b4e](https://github.com/KomodoPlatform/komodo/tree/e159b4e7a40d3886519401c4074e957a1f9d42ba) | [![dPOW Status](http://116.203.64.110/svg/MORTY_badge.svg?maxAge=60)](https://komodostats.com) | dPoW-mainnet
@@ -79,6 +82,6 @@ RICK | [komodo](https://github.com/komodoplatform/komodo) | [e159b4e](https://gi
 STBL | [komodo](https://github.com/komodoplatform/komodo) | [e159b4e](https://github.com/KomodoPlatform/komodo/tree/e159b4e7a40d3886519401c4074e957a1f9d42ba) | [![dPOW Status](http://116.203.64.110/svg/STBL_badge.svg?maxAge=60)](https://komodostats.com) | dPoW-mainnet
 SUPERNET | [komodo](https://github.com/komodoplatform/komodo) | [e159b4e](https://github.com/KomodoPlatform/komodo/tree/e159b4e7a40d3886519401c4074e957a1f9d42ba) | [![dPOW Status](http://116.203.64.110/svg/SUPERNET_badge.svg?maxAge=60)](https://komodostats.com) | dPoW-mainnet
 THC | [komodo](https://github.com/komodoplatform/komodo) | [e159b4e](https://github.com/KomodoPlatform/komodo/tree/e159b4e7a40d3886519401c4074e957a1f9d42ba) | [![dPOW Status](http://116.203.64.110/svg/THC_badge.svg?maxAge=60)](https://komodostats.com) | dPoW-mainnet
-VRSC | [verus](https://github.com/VerusCoin/VerusCoin) | [5611c0a (v0.7.0-3)](https://github.com/VerusCoin/VerusCoin/tree/5611c0a8ee95d143372f6d9708b42d14022c5692) | [![dPOW Status](http://116.203.64.110/svg/VRSC_badge.svg?maxAge=60)](https://komodostats.com) | dPoW-3P
+VRSC | [verus](https://github.com/VerusCoin/VerusCoin) | [ab82cc9 (v0.7.0-4)](https://github.com/VerusCoin/VerusCoin/tree/ab82cc9aad27db997d8dd9d30ebd973a78c22abc) | [![dPOW Status](http://116.203.64.110/svg/VRSC_badge.svg?maxAge=60)](https://komodostats.com) | dPoW-3P
 WLC21 | [komodo](https://github.com/komodoplatform/komodo) | [e159b4e](https://github.com/KomodoPlatform/komodo/tree/e159b4e7a40d3886519401c4074e957a1f9d42ba) | [![dPOW Status](http://116.203.64.110/svg/WLC21_badge.svg?maxAge=60)](https://komodostats.com) | dPoW-mainnet
 ZILLA | [komodo](https://github.com/komodoplatform/komodo) | [e159b4e](https://github.com/KomodoPlatform/komodo/tree/e159b4e7a40d3886519401c4074e957a1f9d42ba) | [![dPOW Status](http://116.203.64.110/svg/ZILLA_badge.svg?maxAge=60)](https://komodostats.com) | dPoW-mainnet

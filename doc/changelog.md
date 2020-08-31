@@ -1,3 +1,24 @@
+### 0.3.0
+
+- updated Chips daemon for HF update
+- updated BTC notarization frequency
+
+### 0.2.5
+
+- updated VRSC daemon to https://github.com/VerusCoin/VerusCoin/tree/v0.7.0-4 (3P)
+
+### 0.2.4
+
+- add MCL for season 4 (3P)
+
+### 0.2.3
+
+- add HUSH for season 4 (3P)
+
+### 0.2.2
+
+- updated VRSC daemon to https://github.com/VerusCoin/VerusCoin/tree/v0.7.0-3
+
 ### 0.2.1
 
 - changed network ports

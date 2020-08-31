@@ -153,7 +153,7 @@ Operating a Notary Node comes with various responsibilities but also grants you 
 - <b>xi.</b> Operate your NN in the assigned region. Using hosting providers with DCs in other regions and obfuscating this by using IPs from other regions will lead to immediate disqualification. 
 - <b>xii.</b> Subscribe to https://github.com/KomodoPlatform/dpow and react in a timely manner (<24h) to notifications and announcements.
 - <b>xiii.</b> Selling a NN spot is prohibited. This rule applies to all forms of disposition (giveaway, renting,...).
-- <b>xiv.</b> Notarization funds, deposited on your NN keys by the Komodo team, are reserved for dPoW operations - it is strictly prohibited to transfer this funds or to use them for anything other then notarizations. At the end of the NN season or if you lose your spot, all NN funds must be returned to the Komodo team. 
+- <b>xiv.</b> Notarization funds, deposited on your NN keys by the Komodo team, are reserved for dPoW operations - it is strictly prohibited to transfer this funds or to use them for anything other then notarizations. At the end of the NN season or if you lose your spot, all NN funds must be returned to the Komodo team. Notaries are responsible for ensuring sufficient KMD is sent from main node to third party node for use in notarisation (funding for other chains will be provided by the Komodo Team).
 
 ### NN Rights:
 
@@ -225,7 +225,7 @@ The consensus rules allow every network participant to hunt the so-called “unc
 
 ### Mine Komodo blocks with your NN pubkey:
 
-In the event a NN opts to hunt, as above, that NN must find some way to contribute block production to the network similar to the result of "traditional NN mining". This contribution shall be no less than 75% of the blocks produced by the region's leading block producing NN and in any event not below 15 blocks per day on average over the course of a calender month. The contribution may be through means of only hunting part time, employing "external" hashrate full-time, or some combination of the two. This contribution shall <b>not</b> include mining several blocks in a short time with "external" hashrate and then abandoning the chain for a time, such an action does not produce a "similar result".
+In the event a NN opts to hunt, as above, that NN must find some way to contribute block production to the network similar to the result of "traditional NN mining". This contribution shall be no less than 75% of the blocks produced by the region's leading block producing NN and in any event not below 15 blocks per day on average over the course of a calendar month. The contribution may be through means of only hunting part time, employing "external" hashrate full-time, or some combination of the two. This contribution shall <b>not</b> include mining several blocks in a short time with "external" hashrate and then abandoning the chain for a time, such an action does not produce a "similar result".
 
 ### NN gurus:
 
@@ -255,6 +255,8 @@ Titomane (@titomane#3101): SH region <br>
 In the previous Notary Node seasons, there were no protocolled rules or policies, which lead to certain confusion in the sense of the Latin phrase “nullum crimen, nulla poena sine lege,” which means someone cannot be punished for something that is not prohibited by law. 
 
 We reconsidered this part and decided to author and publish these transparent guidelines which we call the “Notary Node Bible”. The Komodo team also decided that a violation of any of the above [rules](#responsibilities-rights-and-duties-of-a-nn) will lead to immediate loss of the NN spot. In the event that a single individual has a second violation in the following season, it would lead to disqualification from all future elections and seasons. 
+
+A "grace period" at the beginning of Season 4 will apply until September 1st 2020, to allow for adjustment to rules based on the framework established in this document, and to give new notaries time to make mistakes, learn and tweak their servers. During this time, minor infractions may lead to "probationary status" with Gurus and the NN community assisting non-conforming operators achieve stable and productive participation. Major infractions (i.e. grossly negligent or malicious activity) will be suject to harsher penalty up to and including spot-loss / disqualification.
 
 In case of such a spot-loss or disqualification, the next candidate from the election results will be eligible for the spot and the pubkey would be replaced with the next scheduled hardfork update. 
 
