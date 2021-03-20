@@ -79,8 +79,7 @@ case "$1" in
     sleep 20
 
     # ./dpowassets
-    # add non default assetchains here - RFOX because its freq=10.
-    curl --url "http://127.0.0.1:7776" --data "{\"agent\":\"iguana\",\"method\":\"dpow\",\"symbol\":\"RFOX\",\"freq\":10,\"pubkey\":\"$pubkey\"}"
+    # add non default assetchains here.
 
     # Loop through assetchains.json and call dpow for them. ROFX will not add a second time.
     ./listassetchains | while read chain; do
@@ -129,6 +128,7 @@ case "$1" in
     coins/vrsc_7779
     coins/aya_7779
     coins/gleec_7779
+    coins/pbc_7779
 
     sleep 30
 
@@ -138,6 +138,7 @@ case "$1" in
     curl --url "http://127.0.0.1:7779" --data "{\"agent\":\"iguana\",\"method\":\"dpow\",\"symbol\":\"VRSC\",\"pubkey\":\"$pubkey\"}"
     curl --url "http://127.0.0.1:7779" --data "{\"agent\":\"iguana\",\"method\":\"dpow\",\"symbol\":\"AYA\",\"freq\":5,\"pubkey\":\"$pubkey\"}"
     curl --url "http://127.0.0.1:7779" --data "{\"agent\":\"iguana\",\"method\":\"dpow\",\"symbol\":\"GLEEC\",\"pubkey\":\"$pubkey\"}"
+    curl --url "http://127.0.0.1:7779" --data "{\"agent\":\"iguana\",\"method\":\"dpow\",\"symbol\":\"PBC\",\"pubkey\":\"$pubkey\"}"
 
   ;;
 

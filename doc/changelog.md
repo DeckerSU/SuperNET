@@ -1,3 +1,20 @@
+### 0.3.7
+
+- remove PGT and STBL
+
+### 0.3.6
+
+- update VRSC to tag `v0.7.2-8`. Version: https://github.com/VerusCoin/VerusCoin/tree/d3cffbe4e088166f980afdcf14ed5fbed72b542b (3P)
+- remove RFOX
+
+### 0.3.5
+
+- update VRSC to tag `v0.7.2-7`. Version: https://github.com/VerusCoin/VerusCoin/tree/3fde9bfd727c5081e0308a98d47925379945cac1 (3P)
+
+### 0.3.4
+
+- add PBC to 3P NN
+
 ### 0.3.3
 
 - update AYA
