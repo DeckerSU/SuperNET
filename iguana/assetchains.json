@@ -42,6 +42,13 @@
   {
     "ac_name": "DEX",
     "ac_supply": "999999"
+  },  
+  {
+    "ac_name": "GLEEC",
+    "ac_supply": "21000000",
+    "ac_public": "1",
+    "ac_staked": "100",
+    "addnode":["95.217.161.126"]
   },
   {
     "ac_name": "HODL",
@@ -150,5 +157,11 @@
     "ac_supply": "11000000",
     "ac_sapling": "5000000",
     "addnode": ["51.68.215.104"]
+  },
+  {
+    "ac_name": "VOTE2021",
+    "ac_supply": "129848152",
+    "ac_public": "1",
+    "addnode": ["77.74.197.115"]
   }
 ]
